@@ -33,3 +33,4 @@ if (playbackCaptureResult != PlaybackCaptureResult.recording) {
 
 ## Important Notes
 - This api is only supported on Android Q (10) and up
+- Apps that specify `android:allowAudioPlaybackCapture="false"` in their Manifest.xml will not be captured. [See docs](https://developer.android.com/media/platform/av-capture#capture_policy)
