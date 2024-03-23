@@ -34,7 +34,7 @@ class MediaCaptureService : ServicePluginBinding, Service(), EventChannel.Stream
         private const val SERVICE_ID = 123
         private const val NOTIFICATION_CHANNEL_ID = "AudioCapture channel"
 
-        private const val NUM_SAMPLES_PER_READ = 1024
+        private const val NUM_SAMPLES_PER_READ = 1024 * 4
         private var BYTES_PER_SAMPLE = 2 // default 16-bit PCM
         private var BUFFER_SIZE_IN_BYTES = NUM_SAMPLES_PER_READ * BYTES_PER_SAMPLE // default 16-bit PCM
 
