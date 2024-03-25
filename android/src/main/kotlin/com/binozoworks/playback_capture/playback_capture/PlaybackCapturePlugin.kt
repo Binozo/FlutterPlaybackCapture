@@ -48,6 +48,7 @@ class PlaybackCapturePlugin: FlutterPlugin, MethodCallHandler, ActivityAware,
   private lateinit var mediaProjectionManager: MediaProjectionManager
   private var audioRecordEncoding: String = "pcm16"
   private var audioRecordSampleRate: Int = 16000
+  private var audioRecordSampleReadSize: Int = 1024 * 4
 
 
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
@@ -67,6 +68,7 @@ class PlaybackCapturePlugin: FlutterPlugin, MethodCallHandler, ActivityAware,
     if(call.method == "startAudioListening") {
       audioRecordEncoding = call.argument<String>("encoding") as String
       audioRecordSampleRate = call.argument<Int>("sample_rate") as Int
+      audioRecordSampleReadSize = call.argument<Int>("sample_read_size") as Int
 
       if(!isRecordAudioPermissionGranted()) {
         result.error(ERROR_NO_AUDIO_RECORD_PERMISSION, null, null)
@@ -107,6 +109,7 @@ class PlaybackCapturePlugin: FlutterPlugin, MethodCallHandler, ActivityAware,
           putExtra(MediaCaptureService.EXTRA_RESULT_DATA, data!!)
           putExtra("encoding", audioRecordEncoding)
           putExtra("sample_rate", audioRecordSampleRate)
+          putExtra("sample_read_size", audioRecordSampleReadSize)
         }
         ContextCompat.startForegroundService(context, audioCaptureIntent)
         permissionEvents?.success(PLAYBACK_CAPTURE_PERMISSION_GRANTED)

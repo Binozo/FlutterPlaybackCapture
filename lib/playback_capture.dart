@@ -26,7 +26,11 @@ class PlaybackCapture {
     }
   }
 
-  Future<PlaybackCaptureResult> listenAudio({AudioEncoding encoding = AudioEncoding.pcm16, int sampleRate = 16000, required Function(Uint8List data) audioDataCallback}) async {
+  /// Starts Audio recording
+  /// Specify your preferred [encoding] such as e.g. [AudioEncoding.pcm16] and define the [sampleRate] (defaults to `16000`)
+  /// Additionally you can specify the [sampleReadSize]. With this you can adjust the latency and quality of your audio. A small number like `1024` decreases latency but may reduce quality, a bigger number increases latency but may increase quality.
+  Future<PlaybackCaptureResult> listenAudio(
+      {AudioEncoding encoding = AudioEncoding.pcm16, int sampleRate = 16000, int sampleReadSize = 1024 * 4, required Function(Uint8List data) audioDataCallback}) async {
     try {
       // Initialize our permission callback
       // This is critical because the user can deny this request every time
@@ -35,7 +39,7 @@ class PlaybackCapture {
 
       // Now start the capture process
       // The Android System will now show the user a popup about allowing this App to listen to system audio
-      await PlaybackCapturePlatform.instance.listenAudio(encoding, sampleRate);
+      await PlaybackCapturePlatform.instance.listenAudio(encoding, sampleRate, sampleReadSize);
 
       // Check if the permissions are alright
       final permissionStatus = await permissionStream.first;

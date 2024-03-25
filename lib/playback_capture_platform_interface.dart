@@ -24,7 +24,7 @@ abstract class PlaybackCapturePlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<void> listenAudio(AudioEncoding encoding, int sampleRate) {
+  Future<void> listenAudio(AudioEncoding encoding, int sampleRate, int sampleReadSize) {
     throw UnimplementedError('listenAudio() has not been implemented.');
   }
 

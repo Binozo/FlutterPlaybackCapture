@@ -34,7 +34,7 @@ class MediaCaptureService : ServicePluginBinding, Service(), EventChannel.Stream
         private const val SERVICE_ID = 123
         private const val NOTIFICATION_CHANNEL_ID = "AudioCapture channel"
 
-        private const val NUM_SAMPLES_PER_READ = 1024 * 4
+        private var NUM_SAMPLES_PER_READ = 1024 * 4
         private var BYTES_PER_SAMPLE = 2 // default 16-bit PCM
         private var BUFFER_SIZE_IN_BYTES = NUM_SAMPLES_PER_READ * BYTES_PER_SAMPLE // default 16-bit PCM
 
@@ -70,7 +70,7 @@ class MediaCaptureService : ServicePluginBinding, Service(), EventChannel.Stream
             when (intent.action) {
                 ACTION_START -> {
                     mediaProjection = mediaProjectionManager.getMediaProjection(Activity.RESULT_OK, intent.getParcelableExtra(EXTRA_RESULT_DATA)!!) as MediaProjection
-                    startAudioCapture(intent.getStringExtra("encoding") as String, intent.getIntExtra("sample_rate", 16000))
+                    startAudioCapture(intent.getStringExtra("encoding") as String, intent.getIntExtra("sample_rate", 16000), intent.getIntExtra("sample_read_size", NUM_SAMPLES_PER_READ))
                     Service.START_STICKY
                 }
                 ACTION_STOP -> {
@@ -94,7 +94,7 @@ class MediaCaptureService : ServicePluginBinding, Service(), EventChannel.Stream
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
-    private fun startAudioCapture(encoding: String, sampleRate: Int) {
+    private fun startAudioCapture(encoding: String, sampleRate: Int, sampleReadSize: Int) {
         val config = AudioPlaybackCaptureConfiguration.Builder(mediaProjection!!)
             .addMatchingUsage(AudioAttributes.USAGE_MEDIA)
             .build()
@@ -119,6 +119,7 @@ class MediaCaptureService : ServicePluginBinding, Service(), EventChannel.Stream
                 BYTES_PER_SAMPLE = 4
             }
         }
+        NUM_SAMPLES_PER_READ = sampleReadSize
         BUFFER_SIZE_IN_BYTES = NUM_SAMPLES_PER_READ * BYTES_PER_SAMPLE
 
         val audioFormat = AudioFormat.Builder()

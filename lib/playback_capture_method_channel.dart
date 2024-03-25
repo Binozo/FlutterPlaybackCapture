@@ -11,10 +11,11 @@ class MethodChannelPlaybackCapture extends PlaybackCapturePlatform {
   final methodChannel = const MethodChannel('playback_capture');
 
   @override
-  Future<void> listenAudio(AudioEncoding encoding, int sampleRate) async {
+  Future<void> listenAudio(AudioEncoding encoding, int sampleRate, int sampleReadSize) async {
     await methodChannel.invokeMethod("startAudioListening", {
       "encoding": encoding.name,
       "sample_rate": sampleRate,
+      "sample_read_size": sampleReadSize,
     });
   }
 
