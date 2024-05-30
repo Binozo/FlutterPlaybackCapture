@@ -29,8 +29,9 @@ class PlaybackCapture {
   /// Starts Audio recording
   /// Specify your preferred [encoding] such as e.g. [AudioEncoding.pcm16] and define the [sampleRate] (defaults to `16000`)
   /// Additionally you can specify the [sampleReadSize]. With this you can adjust the latency and quality of your audio. A small number like `1024` decreases latency but may reduce quality, a bigger number increases latency but may increase quality.
+  /// Channel count can be set by adjusting [channelCount]. 2 is the default and equals to stereo, 1 is mono. Take a look at https://developer.android.com/reference/android/media/AudioFormat.Builder#setChannelMask(int)
   Future<PlaybackCaptureResult> listenAudio(
-      {AudioEncoding encoding = AudioEncoding.pcm16, int sampleRate = 16000, int sampleReadSize = 1024 * 4, required Function(Uint8List data) audioDataCallback}) async {
+      {AudioEncoding encoding = AudioEncoding.pcm16, int sampleRate = 16000, int sampleReadSize = 1024 * 4, int channelCount = 2, required Function(Uint8List data) audioDataCallback}) async {
     try {
       // Initialize our permission callback
       // This is critical because the user can deny this request every time
