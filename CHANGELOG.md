@@ -1,3 +1,8 @@
+## 0.0.4
+
+* Added support for specifying record channel count (Mono, Stereo etc.)
+
+
 ## 0.0.3
 
 * Added an api to modify the sample read size

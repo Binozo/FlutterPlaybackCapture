@@ -1,6 +1,6 @@
 name: playback_capture
 description: "Capture your System's audio easily"
-version: 0.0.3
+version: 0.0.4
 homepage: https://github.com/Binozo/FlutterPlaybackCapture
 
 environment:
